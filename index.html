@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://fonts.cdnfonts.com/css/elegant-typewriter" rel="stylesheet">
+    <style>
+        body {font-family: Arial, Helvetica, sans-serif;}
+
+        #myImg {
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            max-width:300px !important;
+        }
+
+        #myImg:hover {opacity: 0.7;}
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 9999; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+
+        /* Modal Content (image) */
+        img.modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px !important;
+        }
+
+        /* Modal Content (backgroundimage) */
+        div.modal-content {
+            margin: auto;
+            display: block; 
+            background-repeat: no-repeat;
+            width: 80%;
+            max-width: 700px !important;
+            
+        }
+        /* container for side-by-side book pages */
+        div#text-book-modal-image {
+            background-size: contain;
+            margin: auto;
+            background-repeat: no-repeat;
+            max-width: 800px !important;
+        }
+
+        /* contents of side-by-side book pages */
+        div#text-page-modal-content {
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: auto;
+            padding-left: 140px;
+            padding-top: 100px;
+            padding-right: 120px;
+            padding-bottom: 100px;
+            text-align: justify;
+            max-height: 275px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        /* contents of book page on the right */
+        div.modal-book-content {
+            display: grid;
+            grid-template-columns: 25% 25% 25% 25%;
+            grid-template-rows: auto auto auto;
+            padding-left: 310px;
+            padding-top: 100px;
+            padding-right: 110px;
+            padding-bottom: 100px;
+            text-align: justify;
+            max-height: 275px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        /* Caption of Modal Image */
+        #caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 150px;
+        }
+
+        /* Add Animation */
+        .modal-content, #caption {
+            -webkit-animation-name: zoom;
+            -webkit-animation-duration: 1.5s;
+            animation-name: zoom;
+            animation-duration: 1.5s;
+        }
+
+        @-webkit-keyframes zoom {
+            from {-webkit-transform:scale(0)}
+            to {-webkit-transform:scale(1)}
+        }
+
+        @keyframes zoom {
+            from {transform:scale(0)}
+            to {transform:scale(1)}
+        }
+
+        @-webkit-keyframes fadeIn {
+            0% {opacity:0}
+            70% {opacity: 0}
+            100% {opacity: 1}
+        }
+
+        @keyframes fadeIn {
+            0% {opacity:0}
+            70% {opacity: 0}
+            100% {opacity: 1}
+        }
+
+        /* The Close Button */
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* 100% Image Width on Smaller Screens */
+        @media only screen and (max-width: 700px){
+            .modal-content {
+                width: 100%;
+            }
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 25% 45% 30%;
+            grid-template-rows: auto auto auto;
+            background-image: url("https://i.imgur.com/p1z9sY7.png");
+            padding: 10px;
+            max-width: 600px;
+            height: 400px;
+        }
+
+        .grid-item {
+            padding: 10px;
+            font-size: 16px;
+            font-family: 'ELEGANT TYPEWRITER', sans-serif;                              
+            text-align: left;
+        }
+
+        .page-grid-item {
+            padding: 10px;
+            font-size: 14px;
+            font-family: 'ELEGANT TYPEWRITER', sans-serif;                              
+            text-align: left;
+        }
+
+        .double-width-right {
+            grid-column-start: 3;
+            grid-column-end: 5;
+        }
+        .double-width-center {
+            grid-column-start: 2;
+            grid-column-end: 4;
+        }
+
+        .double-width-left {
+            grid-column-start: 1;
+            grid-column-end: 3;
+        }
+
+        .double-height {
+            grid-row-start: 1;
+            grid-row-end: 3;
+        }
+
+        .triple-height {
+            grid-row-start: 1;
+            grid-row-end: 4;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Image Modal</h2>
+<div id="wrapper"></div>
+<div class="grid-container">
+    <div class="grid-item double-height"><img id="myImg1" src="https://i.imgur.com/5sR8Zpi.png" alt="Caption" style="max-width:65px;max-height: 125px;" onclick="open_book_animation('myImg1', this);"></div>
+    <div class="grid-item triple-height">2<br /><br /><img id="myImg2" src="https://i.imgur.com/wDpbggp.png" alt="Caption" style="width:100%;max-width:300px" onclick="text_book_modal('myImg2', this);"></div>
+    <div class="grid-item double-height">3</div>
+    <div class="grid-item">4</div>
+    <div class="grid-item"><img id="myImg5" src="https://i.imgur.com/RETb8YH.png" style="width:100%;max-width:300px" onclick="portofolio_modal('myImg5', this);" alt="https://i.imgur.com/zWL0BPm.jpg"></div>
+</div>
+
+
+
+<div id="modal-image-div" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modal-image-id">
+    <div id="caption"></div>
+</div>
+
+<div id="text-page-modal-div" class="modal">
+    <span class="close">&times;</span>
+    <div class="text-book-modal-image" id="text-book-modal-image" style="height: 100%; width: 100%;">
+        <div id="text-page-modal-content">
+            <div class="page-grid-item" id="pageLeft">Personality: The first impression one will probably get of Hibiki is that of classic 1920s gentleman. Hibiki is always dressed sharply, generally courteous, and is fiercely loyal to those he cares about. He is almost always on time and puts his responsibilities to others ahead of his own needs. It isn’t entirely uncommon to notice him humming along to a Sinatra classic as he walks down the street. His attention to detail is obvious in everything he does. Be it during a fight or the process of designing an outfit, the details are essential. This focus on the details is strong enough that Hibiki will occasionally lose sight of the big picture.</div>
+            <div class="page-grid-item" id="pageRight" onclick="TurnPage(this);" pagerightnumber=0>When he isn’t busy trying to hook up with someone, Hibiki is probably either working on a new design or brushing up on his fighting skills. Fashion is always a possible topic of conversation with Hibiki, but his opinions on the topic can be rather strong. If he disagrees with you about what looks good, you will know immediately.</div>
+        </div>
+        <button onclick="TurnPage();">Turn Page</button>
+    </div>
+</div>
+
+<div id="open-book-modal-id" class="modal">
+    <span class="close">&times;</span>
+    <div class="modal-content" id="open-book-modal-image" style="height: 100%; width: 100%;">
+        <div class="modal-book-content" id="bookContent" style="visibility: hidden;display:none;">
+            <div class="grid-item"></div>
+            <div class="grid-item double-width-center double-height" style="padding: 0px"><img src="https://i.imgur.com/JbLROOv.png" width="100%" height="100%"></div>
+            <div class="grid-item"></div>
+            <div class="grid-item"></div>
+            <div class="grid-item"></div>
+            <div class="grid-item double-width-left">Name: Kamikawa, Hibiki</div>
+            <div class="grid-item double-width-right">Known Aliases: None</div>
+            <div class="grid-item double-width-left">Race/Species: Otherworlder Shinigami</div>
+            <div class="grid-item double-width-right">Age: 99</div>
+            <div class="grid-item double-width-left">Alignment: Adventurer's Guild</div>
+            <div class="grid-item double-width-right">Faction: None</div>
+        </div> 
+    </div>
+    <div id="caption"></div>
+</div>
+
+<script>
+    var modal = '';
+    var modalImg = '';
+    var modalContent = '';
+    var textmodalImg = '';
+    var bookContent = document.getElementById("bookContent")
+    //Get elements to hide
+    wrapper = document.getElementById("wrapper");
+
+    function modalize_img(img_id, img_object) {
+        // Get the modal
+        window.modal = document.getElementById("modal-image-div");
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var img = document.getElementById(img_id);
+        window.modalImg = document.getElementById("modal-image-id");
+        var captionText = document.getElementById("caption");
+        //Hide things that display on top of modal
+        wrapper.style.visibility="hidden";
+        //Display Modal
+        modal.style.display = "block";
+        modal.style.visibility = "visible";
+        window.modalImg.src = img_object.src;
+        captionText.innerHTML = img_object.alt;
+    }
+
+    function text_book_modal(img_id, img_object) {
+        // Get the modal
+        window.modal = document.getElementById("text-page-modal-div");
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var img = document.getElementById(img_id);
+        window.modalContent = document.getElementById("text-page-modal-content");
+        window.textmodalImg = document.getElementById("text-book-modal-image");
+        //Hide things that display on top of modal
+        wrapper.style.visibility="hidden";
+        //Display Modal
+        modal.style.display = "block";
+        modal.style.visibility = "visible";
+        window.textmodalImg.style.display = "block";
+        window.textmodalImg.style.backgroundImage = "url('https://i.imgur.com/V9Zah82.gif?v=" + new Date().valueOf() + "')";
+        // window.modalContent.innerHTML = "FOOBAR";
+    }
+
+    function portofolio_modal(img_id, img_object) {
+        // Get the modal
+        window.modal = document.getElementById("modal-image-div");
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var img = document.getElementById(img_id);
+        window.modalImg = document.getElementById("modal-image-id");
+        var captionText = document.getElementById("caption");
+        //Hide things that display on top of modal
+        wrapper.style.visibility="hidden";
+        //Display Modal
+        modal.style.display = "block";
+        modal.style.visibility = "visible";
+        window.modalImg.src = img_object.alt;
+    }
+
+    function open_book_animation(img_id, img_object) {
+        // Get the modal
+        window.modal = document.getElementById("open-book-modal-id");
+        console.log(window.modal)
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var img = document.getElementById(img_id);
+        window.modalImg = document.getElementById("open-book-modal-image");
+        var captionText = document.getElementById("caption");
+        //Hide things that display on top of modal
+        wrapper.style.visibility="hidden";
+        //Display Modal
+        window.modalImg.style.backgroundImage = "url('https://i.imgur.com/6oAlc69.gif?v=" + new Date().valueOf() + "')";
+        window.modal.style.display = "block";
+        window.modal.style.visibility = "visible";
+        setTimeout(function(){
+            window.bookContent.style.display = "grid";
+            window.bookContent.style.visibility = "visible";
+        }, 4500)
+        console.log(modalImg);
+        captionText.innerHTML = img_object.alt;
+    }
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        window.modal.style.display = "none";
+        //Reset visibility on things that display on top of modal
+        wrapper.style.visibility="visible";
+    }
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            window.modal.style.display = "none";
+            window.textmodalImg.style.display = "none";
+            window.bookContent.style.visibility = "hidden";
+            window.bookContent.style.display = "none";
+            //Reset visibility on things that display on top of modal
+            wrapper.style.visibility="visible";
+
+
+        }
+    }
+
+    // When user clicks right page, turn page
+    function TurnPage(pageDiv) {
+        window.textmodalImg.style.backgroundImage = "url('https://i.imgur.com/V9Zah82.gif?v=" + new Date().valueOf() + "')";
+        var left = document.getElementById('pageLeft');
+        var right = document.getElementById('pageRight');
+        setTimeout(function(pageRightNumber){
+            console.log(right.attributes.pageRightNumber.value);
+            switch(right.attributes.pageRightNumber.value){
+                case "0":
+                    left.innerHTML = "Between his flirty nature, appearance, and fashion sense, Hibiki tends to think of himself as a catch. He can come off as rather vain if his looks come in up in conversation. While he appreciates compliments, giving them out might not be the best idea. Diagnosing Hibiki with narcissistic personality disorder would probably be the first thing any psychologist would do after talking to him for five minutes."
+                    right.innerHTML = "Hibiki’s self-appreciation isn’t the only time he can be overly theatrical. If you get him excited about something then his gestures tend to become rather exaggerated. Generally, Hibiki will openly discuss whatever is on his mind. This can be positive when he thinks highly of someone, but can also make him into a bit of an asshole at times since he tends to have a nonexistent filter."
+                    break
+                case "2":
+                    left.innerHTML = "Likes:<br />1. Women and Men – Hibiki is bisexual but is very shy in admitting this. He prefers a relatively slim frame, and beyond that doesn’t tend to care about the details. To him, it’s more about the personality and way that people carry themselves. There is nothing sexier to Hibiki than confidence. <br/>2. Flirting – Hibiki is a complete flirt with women. He’s generally a pretty smooth talker but still tends to come off as a gentleman. He will occasionally flirt with a man, but it is far less common."
+                    right.innerHTML = "3. Fashion – Hibiki has had a passion for fashion since his time as a model before his life was so full of cleaning up other people's messes.<br/>4 Rigid Military Structure – Most people like autonomy and making some amount of decisions. Hibiki much prefers to just have orders handed down from the top brass. It’s far easier to just go execute an order correctly than it is to issue that order in the first place.<br/>5. Punctuality – Hibiki is always on time. Always. If he is a minute late or early, the apology will be so long and drawn out that you will want to punch him."
+                    break
+                case "4":
+                    left.innerHTML = "Dislikes:<br/>1. Disloyalty – Those who betray their comrades are worse than scum. All souls have a duty to be faithful to those they hold dear. Since Hibiki’s abilities work best with teammates, he is especially discouraged by a lack of loyalty.<br/>2. Paperwork – It’s generally seen as a waste of time by Hibiki. No one will care what happened 100 years down the road, so why bother recording it. This is attitude is largely derived from his dislike of history."
+                    right.innerHTML = "3. History – The previous logic is largely biased by the fact that Hibiki hates history. It’s always been his worst subject in both the first round through school and his time at the Shinigami Academy. He could never motivate himself to memorize all the names and dates of events.<br/> 4. Liquor – Alcoholic abusive father happened. See Hibiki's plot thread regarding his full history.<br/>5. Bureaucracy – These agencies exist solely to create more paperwork and waste his time. Paperwork is a waste of time, and the organizations that mandate them are a bigger waste of time… present employers excluded of course… *nervous laughter*"
+                    break
+                case "6":
+                    left.innerHTML = "Goal/Aspiration: There is only a single goal for Hibiki for now. Figure out where in the world, or what world he is in. If possible, he would rather return to Soul Society and get back, but he has a strange feeling that won't be possible. He's got a new, bizarre adventure ahead of him, and for now his only driving force is to figure out what he's gotten himself into.<br/>Fears:</br>1. Commitment – Hibiki spends a decent chunk of his time flirting with people. Giving that up for monogamy would be rough. He’s also never spent any extended amount of time in a relationship, and it’s possible he never will. The idea of opening up so much to one person, and spending so much time with only a single person just flat out scares him."
+                    right.innerHTML = "2. Becoming his father – The desire to prove he was not his father was what motivated Hibiki to not drink, take up martial arts, and join the army. This is by far his biggest fear. If an enemy has a way to intoxicate Hibiki by force, it would be brutally effective.<br/>3. Loss of Control - Hibiki prefers to be in control of the immediate situation around him. Being on the receiving end of bondage, restraining magic, and fighting someone far stronger than him are not things he looks forward to. He doesn’t mind following orders though since he's giving up control willingly in that situation.<br/>"
+                    break
+                case "8":
+                    left.innerHTML = "History: What is the pinnacle of despair? Is it the loss of a loved one? The end of the world? Your own death? No, Hibiki had experienced all of those before, and he had found a deeper despair still. Kamikawa Hibiki had stepped through the portal after that Hollow and emerged in a world that he could immediately tell was wrong. Despair sunk in as soon as he heard the portal shut behind him. He was trapped, wherever this was. Even worse, he could immediately sense that this place was nothing like any of the others he had been to. It was neither the World of the Living nor Hueco Mundo. It certainly wasn't Soul Society. There was almost nothing. Only the faintest traces of spiritual energy existed in this place."
+                    right.innerHTML = "The roar of the Hollow that had trapped him here pulled him from his panicked thoughts and back to the battle at hand. He wasn't sure about the big picture, but one thing was for sure. That Hollow would regret trapping him here at least. A single hand extended before him as the hollow charged forward. 'The Thirty-Third Way of Destruction: Sokatsui.' A rush of blue fire swept out from his palm and engulfed the monster, snuffing out its life."
+                    break
+                case "10":
+                    left.innerHTML = "But a new problem had present itself. The spell itself felt wrong. Not only that, it had been a pathetic fraction of what he was capable of. Well, what he used to be capable of at least. It seemed the rules of nature were fundamentally different here. It made sense that he felt no spiritual energy, given he didn't even feel it from his spell. What was this place he found himself in, and could he ever return from here? The man once known as Captain of Squad Four sighed at the forest around him. 'It surely cannot be this easy.' He thrust his Zanpakuto into the air in front of him in an attempt to open a gate back to the Soul Society. Of course nothing happened."
+                    right.innerHTML = "'Well then, it appears I am stuck. Shit.' Resigned to his fate, Hibiki began to wander amongst the trees in search of civilization. For now he needed to find his bearings, and hope that at least some form of civilization existed in this place."
+                default:
+                    console.log("FAILED")
+                    console.log(right.attributes.pageRightNumber.value)
+            }
+            right.attributes.pageRightNumber.value = parseInt(right.attributes.pageRightNumber.value) + 2;
+            console.log(right.attributes.pageRightNumber.value);
+        }, 300);
+        
+    }
+    
+</script>
+
+</body>
+</html>
